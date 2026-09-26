@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: deployment
+ labels:
+   deployment: demo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deployment: demo
+    spec:
+      containers:
+      - name: container
+        image: 
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MYSQL_DB
+          valueFrom:
+            configMapKeyRef:
+              name: map
+              key: mysqlDB
