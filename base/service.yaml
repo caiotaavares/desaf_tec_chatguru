@@ -8,5 +8,5 @@ spec:
   ports:
     - port: 8080
   selector:
-    app: demo
-  type: ClusterIP
+    deployment: demo
+  type: LoadBalancer

@@ -6,6 +6,9 @@ metadata:
    deployment: demo
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      deployment: demo
   template:
     metadata:
       labels:
@@ -13,11 +16,12 @@ spec:
     spec:
       containers:
       - name: container
-        image: 
+        image: simplehttp:1.0.0
+        imagePullPolicy: Never
         ports:
         - containerPort: 8080
         env:
-        - name: MYSQL_DB
+        - name: DB
           valueFrom:
             configMapKeyRef:
               name: map
