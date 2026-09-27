@@ -20,6 +20,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.11
+          # python cache dependency
+          cache: 'pip'
 
       - name: install the dependencies
         run: |
@@ -30,8 +32,23 @@ jobs:
         run: |
           pytest
 
+  kustomize-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out code
+        uses: actions/checkout@v5
+
+      - name: set up kustomize
+        uses: azure/setup-kustomize@v5
+
+      - name: lint staging kustomize
+        run: kustomize build overlays/staging
+
+      - name: lint production kustomize
+        run: kustomize build overlays/production
+
   build-and-push:
-    needs: run-tests
+    needs: [run-tests, kustomize-lint]
     runs-on: ubuntu-latest
     steps:
       - name: checkou code
