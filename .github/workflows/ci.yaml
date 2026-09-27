@@ -36,10 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: check out code
-        uses: actions/checkout@v5
-
-      - name: set up kustomize
-        uses: azure/setup-kustomize@v5
+        uses: actions/checkout@v4
 
       - name: lint staging kustomize
         run: kustomize build overlays/staging

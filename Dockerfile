@@ -13,7 +13,8 @@ RUN useradd --create-home appuser && \
 USER appuser
 WORKDIR /app
 
-RUN pip install --no-cache-dir fastapi uvicorn
+COPY --chown=appuser:appuser requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia o código da aplicação
 COPY --chown=appuser:appuser . .
