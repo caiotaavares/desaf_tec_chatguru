@@ -11,3 +11,4 @@ resources:
 - ../../base
 patches:
 - path: configMap.yaml
+- path: ingress.yaml
