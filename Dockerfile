@@ -1,11 +1,23 @@
-FROM golang:alpine AS builder
-WORKDIR /build
-COPY ./simplehttp.go .
-RUN go build -o simplehttp ./simplehttp.go
-WORKDIR /dist
-RUN cp /build/simplehttp .
-EXPOSE 8080
+# syntax=docker/dockerfile:1
+ARG PYTHON_VERSION=3.11-slim-bookworm
 
-FROM scratch
-COPY --from=builder /dist/simplehttp /
-ENTRYPOINT [ "/simplehttp" ]
+FROM python:${PYTHON_VERSION}
+
+# Cria usuário não-root por segurança e instala o curl para healthcheck
+RUN useradd --create-home appuser && \
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
+
+USER appuser
+WORKDIR /app
+
+# Instala o FastAPI e o Uvicorn direto (caso não use requirements.txt)
+RUN pip install --no-cache-dir fastapi uvicorn
+
+# Copia o código da aplicação
+COPY --chown=appuser:appuser . .
+
+EXPOSE 8080
+CMD ["python", "main.py"]

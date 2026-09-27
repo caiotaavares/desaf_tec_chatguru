@@ -8,13 +8,19 @@
 to start locally (need go installed):
 ```
 export DB=mysql.example.com:3306"
-go run simplehttp.go 
+python3 main.py
 ```
 
 ### to start by the container on port 8080
 ```
+docker build -t simplehttp:1.0.0 .
 export DB=mysql.example.com:3306"
-docker run -d -p 8080:8080 simplehttp:"version"
+docker run -d -p 8080:8080 simplehttp:1.0.0
+```
+
+## to start by kustomize
+```
+kubectl apply -k overlays/staging
 ```
 
 ```
