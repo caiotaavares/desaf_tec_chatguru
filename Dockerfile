@@ -13,7 +13,6 @@ RUN useradd --create-home appuser && \
 USER appuser
 WORKDIR /app
 
-# Instala o FastAPI e o Uvicorn direto (caso não use requirements.txt)
 RUN pip install --no-cache-dir fastapi uvicorn
 
 # Copia o código da aplicação
