@@ -11,9 +11,8 @@ para iniciar localmente (precisa `python`/`python3` e `pip` instalados):
 pip install -r requirements.txt
 export DB=mysql.example.com:3306"
 python3 main.py
-curl http://localhost:8080/health
 ```
-run: `curl http://localhost:8080/info`
+run: `curl http://localhost:8080/info` ou `curl http://localhost:8080/health`
 
 #### para iniciar no container na porta `8080`
 precisa de `docker` instalado
@@ -22,7 +21,7 @@ docker build -t simplehttp:1.0.0 .
 export DB=mysql.example.com:3306"
 docker run -d -p 8080:8080 simplehttp:1.0.0
 ```
-run: `curl http://localhost:8080/info`
+run: `curl http://localhost:8080/info` ou `curl http://localhost:8080/health
 
 #### para iniciar pelo kustomize no `minikube`
 
