@@ -20,7 +20,7 @@ precisa de `docker` instalado
 docker build -t simplehttp:1.0.0 .
 docker run -d -p 8080:8080 -e DB="mysql.example.com:3306" --hostname docker-insider simplehttp:1.0.0
 ```
-run: `curl http://localhost:8080/info` ou `curl http://localhost:8080/health
+run: `curl http://localhost:8080/info` ou `curl http://localhost:8080/health`
 
 #### para iniciar pelo kustomize no `minikube`
 
@@ -30,19 +30,25 @@ run: `curl http://localhost:8080/info` ou `curl http://localhost:8080/health
 - `kustomize` (integrado ao `kubectl`)
 - Ingress controller: `minikube addons enable ingress`
 
-Atualize o /etc/hosts (ou windows/minikube equivalente): `$(minikube ip) desafio.candidato.local` ou `$(minikube ip) staging.desafio.candidato.local`
+Atualize o /etc/hosts (ou windows/macOS equivalente) para mapear o domínio diretamente para o endereço IP do minikube: `$(minikube ip) desafio.candidato.local` ou `$(minikube ip) staging.desafio.candidato.local`
 ```
 minikube start
+```
+```
 minikube addons enable ingress
+```
+```
 minikube image build -t simplehttp:1.0.0 .
 ```
 
 ##### overlays
 - Para subir o ambiente de `staging`:
+/etc/hosts: `$(minikube ip) staging.desafio.candidato.local`
 ```
 kubectl apply -k overlays/staging
 ```
 - Para subir o ambiente de `production`:
+/etc/hosts : `$(minikube ip) desafio.candidato.local`
 ```
 kubectl apply -k overlays/production
 ```
