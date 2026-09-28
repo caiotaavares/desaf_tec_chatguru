@@ -1,9 +1,8 @@
-# syntax=docker/dockerfile:1
 ARG PYTHON_VERSION=3.11-slim-bookworm
 
 FROM python:${PYTHON_VERSION}
 
-# Cria usuário não-root por segurança e instala o curl para healthcheck
+# Cria usuário não-root
 RUN useradd --create-home appuser && \
     apt-get update && \
     apt-get upgrade -y && \

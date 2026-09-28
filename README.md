@@ -6,7 +6,7 @@
 
 ### uso
 #### local
-para iniciar localmente (precisa python/python3 instalado):
+para iniciar localmente (precisa `python`/`python3` e `pip` instalados):
 ```
 pip install -r requirements.txt
 export DB=mysql.example.com:3306"
@@ -16,6 +16,7 @@ curl http://localhost:8080/health
 run: `curl http://localhost:8080/info`
 
 #### para iniciar no container na porta `8080`
+precisa de `docker` instalado
 ```
 docker build -t simplehttp:1.0.0 .
 export DB=mysql.example.com:3306"
@@ -24,13 +25,39 @@ docker run -d -p 8080:8080 simplehttp:1.0.0
 run: `curl http://localhost:8080/info`
 
 #### para iniciar pelo kustomize no `minikube`
+
+##### pré-requisitos
+- `minikube`
+- `kubectl`
+- `kustomize` (integrado ao `kubectl`)
+- Ingress controller: `minikube addons enable ingress`
+
 Atualize o /etc/hosts (ou windows/minikube equivalente): `$(minikube ip) desafio.candidato.local` ou `$(minikube ip) staging.desafio.candidato.local`
 ```
+minikube start
+minikube addons enable ingress
 minikube image build -t simplehttp:1.0.0 .
 kubectl apply -k overlays/staging
 kubectl apply -k overlays/production
 ```
-run: `curl http://desafio.candidato.local/info` ou `curl http://staging.desafio.candidato.local/info`
+
+##### trocar de overlay
+- Para subir o ambiente de `staging`:
+```
+kubectl apply -k overlays/staging
+```
+- Para subir o ambiente de `production`:
+```
+kubectl apply -k overlays/production
+```
+
+- Para remover um ambiente
+```
+kubectl delete -k overlays/staging
+# ou
+kubectl delete -k overlays/production
+```
+Nota: dependendo do driver do `minikube`, pode ser necessário executar `minikube tunnel`
 
 ### Estrutura
 #### Aplicação de código fonte
