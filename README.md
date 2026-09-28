@@ -1,12 +1,13 @@
-## Simple http in golang
+## Simple http python application
 
 ### Routes
 - /health = Return if the application is alive
-- /info = Return application version and db variable content
+- /info = Return application `version`, `db` variable content and `hostname`
 
 ### usage
 to start locally (need python/python3 installed):
 ```
+pip install -r requirements.txt
 export DB=mysql.example.com:3306"
 python3 main.py
 curl http://localhost:8080/health
