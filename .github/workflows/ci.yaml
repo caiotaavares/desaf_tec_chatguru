@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [main]
 
-# Permissão necessária para que o GITHUB_TOKEN consiga publicar no GHCR
+# Permissão necessária para publicar no GHCR
 permissions:
   contents: read
   packages: write
@@ -20,7 +20,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.11
-          # python cache dependency
           cache: 'pip'
 
       - name: install the dependencies

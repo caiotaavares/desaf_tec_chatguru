@@ -2,7 +2,7 @@ ARG PYTHON_VERSION=3.11-slim-bookworm
 
 FROM python:${PYTHON_VERSION}
 
-# Cria usuário não-root
+# Cria usuário não-root e curl para health check
 RUN useradd --create-home appuser && \
     apt-get update && \
     apt-get upgrade -y && \
@@ -15,7 +15,6 @@ WORKDIR /app
 COPY --chown=appuser:appuser requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia o código da aplicação
 COPY --chown=appuser:appuser . .
 
 EXPOSE 8080
