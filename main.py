@@ -1,7 +1,9 @@
 from fastapi import FastAPI, status
 from pydantic import BaseModel
+from typing import Optional
 import uvicorn
 import os
+import socket
 
 app = FastAPI()
 DB = os.getenv("DB")
@@ -9,6 +11,11 @@ VERSION = os.getenv("VERSION", "1.0.0")
 
 class HealthCheck(BaseModel):
     status: str = "OK"
+
+class InfoResponse(BaseModel):
+    version: str
+    db: Optional[str] = None
+    hostname: str
 
 
 @app.get(
@@ -28,9 +35,14 @@ def get_health() -> HealthCheck:
     summary="Get the application info",
     response_description="Return the application info",
     status_code=status.HTTP_200_OK,
+    response_model=InfoResponse,
 )
 def get_version() -> dict:
-    return {"version": VERSION, "db": DB}
+    return {
+        "version": os.getenv("VERSION", VERSION),
+        "db": os.getenv("DB", DB),
+        "hostname": os.getenv("HOSTNAME") or socket.gethostname(),
+    }
 
 def main() -> None:
     uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)
