@@ -9,6 +9,7 @@ labels:
     variant: staging
 resources:
 - ../../base
+- namespace.yaml
 patches:
 - path: configMap.yaml
 - path: ingress.yaml
